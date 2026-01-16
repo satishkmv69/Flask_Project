@@ -1,0 +1,38 @@
+    <!DOCTYPE html>
+    <html lang="">
+    <head>
+        <title>Resume Chatbot</title>
+    </head>
+    <body>
+    <h2>Resume Chatbot</h2>
+
+    <div id="chat"></div>
+    <input id="msg" placeholder="Type here..." />
+    <button onclick="send()">Send</button>
+
+
+    <script>
+    function send() {
+        let msg = document.getElementById("msg").value;
+         if (msg.trim() === "") {
+             alert("Please enter a message");
+             return;
+            }
+            else
+            {
+               fetch("/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({message: msg})
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("chat").innerHTML += "<p>" + data.reply + "</p>";
+            document.getElementById("msg").value = "";
+
+        });
+            }
+    }
+    </script>
+    </body>
+    </html>
